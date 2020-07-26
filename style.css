@@ -16,7 +16,7 @@ header h1 {
   border: 1px solid black;
   border-radius: 5px;
   margin: 3em auto 0;
-  width: 15%;
+  width: 24em;
   background-color: rgb(54,69,79);
   padding: 2em;
   display: flex;
@@ -53,6 +53,7 @@ header h1 {
 }
 
 #buttonLayout {
+  width: 100%;
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(4, 1fr);
@@ -62,7 +63,7 @@ header h1 {
   cursor: pointer;
 }
 
-#operators {
+.operators {
   border-radius: 5px;
   background-color: rgb(178,34,34);
   padding: 2em;
@@ -97,7 +98,7 @@ header h1 {
   grid-column: 4 / 5;
 }
 
-#numbers {
+.numbers {
   background-color: rgba(249, 105, 14, 1);
   border-radius: 5px;
   padding: 2em;
