@@ -10,13 +10,30 @@
   Button activators
 */
 
+function activateButtons (btnArr) {
+  for (let i = 0; i < btnArr.length; i++) {
+    //console.log(btnArr[i].textContent);
+    if (parseInt(btnArr[i].textContent) <= 9 || parseInt(btnArr[i].textContent) >=0) {
+      btnArr[i].addEventListener('click', storeValues);
+    }
+    if (btnArr[i].textContent == '-') {
+      btnArr[i].addEventListener('click', evaluate);
+    }
+  }
+}
 
+function storeValues (e) {
+  //console.log(e);
+  let displayElement = this.textContent;
+  displayArr.push(parseInt(displayElement));
+  //console.log(displayNum);
+  display.textContent = displayElement;
+}
 
 /*
   Calculator functions
 */
 function add (a, b) {
-	}
 	return a + b;
 }
 
@@ -48,5 +65,11 @@ function operate (operand, a, b) {
   }
 }
 
-const operatorButton = document.querySelector('#operators');
-const numButton = document.querySelector('#numbers');
+const buttons = document.querySelectorAll('#btn');
+const display = document.querySelector('#content');
+
+// arr to store all values clicked
+let displayArr = [];
+
+
+activateButtons(buttons);
