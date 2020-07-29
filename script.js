@@ -68,7 +68,7 @@ function delValue () {
   num = num.slice(0, -1);
 }
 
-function evaluate(arr) {
+function evaluate () {
   if (num !== '') {
     valueArr.push(num);
   }
@@ -81,13 +81,22 @@ function evaluate(arr) {
       // operation
       operator = valueArr[i];
     }
+    count += 1;
+    if (i == 0) {
+      count -= 1;
+    }
+    if (count == 2) {
+      answer = operate(operator, numArr[0], numArr[1]);
+      numArr = [];
+      numArr.push(answer);
+      count = 0;
+    }
   }
   /*
   let num1 = parseInt(valueArr[0]);
   let operator = valueArr[1];
   let num2 = parseInt(valueArr[2]);
   */
-  let answer = operate(operator, numArr[0], numArr[1]);
   clearValues();
   display.textContent = answer;
   valueArr.push(answer)
@@ -144,5 +153,7 @@ let valueArr = [];
 let num = "";
 let numArr = [];
 let operator = '';
+let count = 0;
+let answer = 0;
 
 activateButtons(buttons);
