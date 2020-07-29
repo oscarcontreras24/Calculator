@@ -12,23 +12,94 @@
 
 function activateButtons (btnArr) {
   for (let i = 0; i < btnArr.length; i++) {
-    //console.log(btnArr[i].textContent);
-    if (parseInt(btnArr[i].textContent) <= 9 || parseInt(btnArr[i].textContent) >=0) {
-      btnArr[i].addEventListener('click', storeValues);
+    if (btnArr[i].textContent != 'DEL' && btnArr[i].textContent != 'C' &&
+    btnArr[i].textContent != '=') {
+      btnArr[i].addEventListener('click', displayValues);
     }
-    if (btnArr[i].textContent == '-') {
+    if (btnArr[i].textContent == "C") {
+      btnArr[i].addEventListener('click', clearValues);
+    }
+    if (btnArr[i].textContent == "DEL") {
+      btnArr[i].addEventListener('click', delValue);
+    }
+    if (btnArr[i].textContent == '=') {
       btnArr[i].addEventListener('click', evaluate);
     }
   }
 }
 
-function storeValues (e) {
+function displayValues (e) {
   //console.log(e);
-  let displayElement = this.textContent;
-  displayArr.push(parseInt(displayElement));
+  let displayElement = document.createElement('div');
+  displayElement.textContent = this.textContent;
+  display.appendChild(displayElement);
+
+  if (parseInt(displayElement.textContent) >=0 && parseInt(displayElement.textContent) <=9 ) {
+    num += displayElement.textContent;
+  }
+
+  if (displayElement.textContent == '+' || displayElement.textContent == '-' ||
+      displayElement.textContent == '*' || displayElement.textContent == '/') {
+        if (num !== '') {
+          valueArr.push(num);
+        }
+        valueArr.push(displayElement.textContent);
+        num = '';
+      }
+  //let displayElement = this.textContent;
+  //displayArr.push(parseInt(displayElement));
   //console.log(displayNum);
-  display.textContent = displayElement;
+  //display.textContent = displayElement;
 }
+
+function clearValues () {
+  display.innerHTML = '';
+  valueArr = [];
+  num = '';
+  numArr = [];
+  operator = '';
+}
+
+function delValue () {
+  display.removeChild(display.lastElementChild);
+  if (num === '') {
+    valueArr.pop();
+  }
+  num = num.slice(0, -1);
+}
+
+function evaluate(arr) {
+  if (num !== '') {
+    valueArr.push(num);
+  }
+  for (let i = 0; i < valueArr.length; i++) {
+    if (i % 2 == 0) {
+      // numbers
+      numArr.push(parseInt(valueArr[i]));
+    }
+    else {
+      // operation
+      operator = valueArr[i];
+    }
+  }
+  /*
+  let num1 = parseInt(valueArr[0]);
+  let operator = valueArr[1];
+  let num2 = parseInt(valueArr[2]);
+  */
+  let answer = operate(operator, numArr[0], numArr[1]);
+  clearValues();
+  display.textContent = answer;
+  valueArr.push(answer)
+}
+
+
+/*
+function displayNum (displayArr) {
+  while (displayArr[i] )
+    display.textContent =
+}
+*/
 
 /*
   Calculator functions
@@ -38,7 +109,7 @@ function add (a, b) {
 }
 
 function subtract (a, b) {
-	return a + b;
+	return a - b;
 }
 
 
@@ -52,16 +123,16 @@ function divide (a, b) {
 
 function operate (operand, a, b) {
   if (operand == '+') {
-    return add(a,b);
+    return add(a, b);
   }
   else if (operand == '-') {
-    return subtract(a,b);
+    return subtract(a, b);
   }
   else if (operand == '*') {
-    return multiply(a,b);
+    return multiply(a, b);
   }
   else if (operand == '/') {
-    return divide(a,b);
+    return divide(a, b);
   }
 }
 
@@ -69,7 +140,9 @@ const buttons = document.querySelectorAll('#btn');
 const display = document.querySelector('#content');
 
 // arr to store all values clicked
-let displayArr = [];
-
+let valueArr = [];
+let num = "";
+let numArr = [];
+let operator = '';
 
 activateButtons(buttons);
