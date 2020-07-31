@@ -32,10 +32,14 @@ function displayValues (e) {
   //console.log(e);
   let displayElement = document.createElement('div');
   displayElement.textContent = this.textContent;
-  display.appendChild(displayElement);
 
-  if (parseInt(displayElement.textContent) >=0 && parseInt(displayElement.textContent) <=9 ) {
-    num += displayElement.textContent;
+  if (!num.includes(".") || this.textContent != ".") {
+    display.appendChild(displayElement);
+
+    if ( (parseInt(displayElement.textContent) >=0 && parseInt(displayElement.textContent) <=9)
+        || displayElement.textContent == ".") {
+        num += displayElement.textContent;
+    }
   }
 
   if (displayElement.textContent == '+' || displayElement.textContent == '-' ||
@@ -75,7 +79,7 @@ function evaluate () {
   for (let i = 0; i < valueArr.length; i++) {
     if (i % 2 == 0) {
       // numbers
-      numArr.push(parseInt(valueArr[i]));
+      numArr.push(parseFloat(valueArr[i]));
     }
     else {
       // operation
@@ -97,7 +101,11 @@ function evaluate () {
   let operator = valueArr[1];
   let num2 = parseInt(valueArr[2]);
   */
-  clearValues();
+  clearValues
+  // ensures that answer will not exit screen
+  if (answer.toString().length >= 10) {
+    answer = answer.toFixed(8);
+  }
   display.textContent = answer;
   valueArr.push(answer)
 }
@@ -150,10 +158,10 @@ const display = document.querySelector('#content');
 
 // arr to store all values clicked
 let valueArr = [];
-let num = "";
-let numArr = [];
-let operator = '';
-let count = 0;
-let answer = 0;
+let num = ""; // string that will be place holder for numbers after clicking them
+let numArr = []; // arr to hold 2 numbers used for an operation
+let operator = ''; // holds the operator
+let count = 0; // counter variable to control the flow of operations in tghe valueArr
+let answer = 0; // place holder for the running total for operations
 
 activateButtons(buttons);
